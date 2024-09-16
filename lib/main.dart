@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/modules/screens/splash/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Flutter Demo',
-      home: Scaffold(
-        body:  Center(
-          child: Text('E-commerce App'),
-        ),
-      ),
+      home: SplashScreen()
     );
   }
 }
