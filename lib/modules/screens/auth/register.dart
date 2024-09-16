@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/Helpers/helpers.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_states.dart';
 import 'package:flutter_ecommerce/modules/screens/home/home_screen.dart';
+import 'package:flutter_ecommerce/shared/style/colors.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
@@ -20,17 +22,10 @@ class Register extends StatelessWidget {
       child: BlocConsumer<AuthCubit,AuthStates>(
         listener: (context, state) {
           if (state is AuthErrorState) {
-            showDialog(context: context, builder: (context) {
-              return AlertDialog(
-                content: Text(state.message,style: const  TextStyle(color: Colors.white)),
-                backgroundColor: Colors.red,
-                actions: [
-                  TextButton(onPressed: () {
-                    Navigator.pop(context);
-                  }, child: const Center(child:  Text('OK')))
-                ],
-              );
-            });
+            showDialog(
+                context: context,
+                builder: (context) => Helpers.errorDialog(context: context, message: state.message)
+            );
           }else if (state is AuthAuthenticatedState) {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
           }
@@ -47,13 +42,13 @@ class Register extends StatelessWidget {
                   children: [
                     const Text('Sign Up',style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold),),
                     const SizedBox(height: 16.0,),
-                    _textFieldItem(controller: nameController, label: 'Name', hint : 'Enter your name'),
+                    Helpers.formField(controller: nameController, label: 'Name', hint : 'Enter your name'),
                     const SizedBox(height: 16.0,),
-                    _textFieldItem(controller: emailController, label: 'Email', hint : 'Enter your email'),
+                    Helpers.formField(controller: emailController, label: 'Email', hint : 'Enter your email'),
                     const SizedBox(height: 16.0,),
-                    _textFieldItem(controller: phoneController, label: 'Phone', hint : 'Enter your phone'),
+                    Helpers.formField(controller: phoneController, label: 'Phone', hint : 'Enter your phone'),
                     const SizedBox(height: 16.0,),
-                    _textFieldItem(controller: passwordController, label: 'Password',hint  : 'Enter your password', isPassword: true),
+                    Helpers.formField(controller: passwordController, label: 'Password',hint  : 'Enter your password', isPassword: true),
                     const SizedBox(height: 16.0,),
                     MaterialButton(
                       onPressed: (){
@@ -70,7 +65,7 @@ class Register extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       minWidth: double.infinity,
-                      color: Colors.blue,
+                      color: mainColor,
                       child:  Text(state is AuthLoadingState ? "Loading ...": "Register",style: const TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),),
                     ),
                   ],
@@ -84,20 +79,3 @@ class Register extends StatelessWidget {
   }
 }
 
-Widget _textFieldItem({required TextEditingController controller, required String hint, String? label, bool? isPassword}) {
-  return TextFormField(
-    controller: controller,
-    validator: (value) {
-      if (value!.isEmpty) {
-        return 'Please enter your ${label ?? hint}';
-      }
-      return null;
-    },
-    obscureText: isPassword ?? false,
-    decoration:  InputDecoration(
-      border: const OutlineInputBorder(),
-      labelText: label,
-      hintText: hint,
-    ),
-  );
-}

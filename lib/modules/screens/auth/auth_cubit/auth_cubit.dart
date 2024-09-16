@@ -8,17 +8,27 @@ import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_states.da
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitialState());
 
-  void register({required String name,required String email,required String phone , required String password}) async {
+  void register({required String name, required String email, required String phone, required String password}) async {
+    await _authenticate('register', {
+      'email': email,
+      'name': name,
+      'phone': phone,
+      'password': password,
+    });
+  }
+
+  void login({required String email, required String password}) async {
+    await _authenticate('login', {
+      'email': email,
+      'password': password,
+    });
+  }
+  Future<void> _authenticate(String endpoint, Map<String, String> body) async {
     emit(AuthLoadingState());
     try {
       final response = await http.post(
-        Uri.parse('${Helpers.apiUrl}/register'),
-        body: {
-          'email': email,
-          'name': name,
-          'phone': phone,
-          'password': password,
-        },
+        Uri.parse('${Helpers.apiUrl}/$endpoint'),
+        body: body,
         headers: {
           'lang': 'en',
         }
@@ -33,4 +43,6 @@ class AuthCubit extends Cubit<AuthStates> {
       emit(AuthErrorState('Unknown error occur'));
     }
   }
+
+ 
 }
