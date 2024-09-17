@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/Helpers/helpers.dart';
+import 'package:flutter_ecommerce/shared/network/local_network.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_states.dart';
 
@@ -35,6 +36,7 @@ class AuthCubit extends Cubit<AuthStates> {
       );
       var responseBody = jsonDecode(response.body);
       if (responseBody['status'] == true) {
+        await CacheNetwork.setCache('token', responseBody['data']['token']);
         emit(AuthAuthenticatedState());
       } else {
         emit(AuthErrorState(responseBody['message']));
