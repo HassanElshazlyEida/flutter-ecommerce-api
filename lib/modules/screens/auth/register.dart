@@ -32,6 +32,10 @@ class Register extends StatelessWidget {
         },
         builder: (context, state) {
           return  Scaffold(
+            appBar: AppBar(
+              title: const Text('Register'),
+              centerTitle: true,
+            ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Form(
@@ -40,6 +44,9 @@ class Register extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Center(
+                  child: Image.asset('images/logo.png',
+                      height: 150, width: 150)),
                     const Text('Sign Up',style: TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold),),
                     const SizedBox(height: 16.0,),
                     Helpers.formField(controller: nameController, label: 'Name', hint : 'Enter your name'),

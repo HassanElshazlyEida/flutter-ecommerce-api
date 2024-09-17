@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/Helpers/helpers.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_states.dart';
+import 'package:flutter_ecommerce/modules/screens/auth/register.dart';
 import 'package:flutter_ecommerce/modules/screens/home/home_screen.dart';
 import 'package:flutter_ecommerce/shared/style/colors.dart';
 
@@ -31,13 +32,13 @@ class Login extends StatelessWidget {
         return BlocBuilder<AuthCubit, AuthStates>(
           builder: (context, state) {
             return Scaffold(
-                body: Container(
+              body: Container(
               height: double.infinity,
               width: double.infinity,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('images/background.jpg'),
-                  fit: BoxFit.fill,
+                  image: AssetImage('images/bg.jpg'),
+                  fit: BoxFit.cover,
                 ),
               ),
               child: Column(
@@ -48,13 +49,7 @@ class Login extends StatelessWidget {
                       child: Container(
                         alignment: Alignment.bottomCenter,
                         padding: const EdgeInsets.only(bottom: 40),
-                        child: const Text(
-                          "Login to continue process",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        child: null
                       ),
                     ),
                   ),
@@ -64,7 +59,7 @@ class Login extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 35),
                         width: double.infinity,
                         decoration: const BoxDecoration(
-                          color: thirdColor,
+                          color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(30),
                               topRight: Radius.circular(30)),
@@ -120,6 +115,22 @@ class Login extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
+                                   const SizedBox(height: 15,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:
+                                    [
+                                      const Text('Don\'t have an account? ',style: TextStyle(color: Colors.black)),
+                                     const  SizedBox(width: 4,),
+                                      InkWell(
+                                        onTap: ()
+                                        {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                                        },
+                                        child: const Text('Create one',style: TextStyle(color: mainColor,fontWeight: FontWeight.bold)),
+                                      )
+                                    ],
+                                  )
                                 ],
                               )),
                         ),
