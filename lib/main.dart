@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dart';
-import 'package:flutter_ecommerce/modules/screens/auth/login.dart';
-import 'package:flutter_ecommerce/modules/screens/home/home_screen.dart';
+import 'package:flutter_ecommerce/routes/routes.dart';
 import 'package:flutter_ecommerce/shared/bloc/global_bloc_observer.dart';
 import 'package:flutter_ecommerce/shared/network/local_network.dart';
-import 'package:flutter_ecommerce/shared/style/colors.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +12,7 @@ void main() async {
   Bloc.observer = GlobalBlocObserver();
 
   await CacheNetwork.init();
-  
+
   runApp(const MyApp());
 }
 
@@ -26,14 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
       ],
-      child:  MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme:  ThemeData(
-          primaryColor: thirdColor
-        ),
-        home: CacheNetwork.getCache('token') != null ? const HomeScreen() : Login()
-
+      child:  GetMaterialApp(
+        initialRoute: Routes.home,
+        getPages: AppPages.pages,
       ),
     );
   }

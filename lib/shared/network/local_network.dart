@@ -4,7 +4,6 @@ class CacheNetwork {
   static late SharedPreferences sharedPref;
 
   static Future init() async {
-    SharedPreferences.setMockInitialValues({});
     sharedPref = await SharedPreferences.getInstance();
     return sharedPref;
   }

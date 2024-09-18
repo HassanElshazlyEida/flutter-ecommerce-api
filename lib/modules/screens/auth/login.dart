@@ -4,8 +4,9 @@ import 'package:flutter_ecommerce/Helpers/helpers.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_states.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/register.dart';
-import 'package:flutter_ecommerce/modules/screens/home/home_screen.dart';
+import 'package:flutter_ecommerce/routes/routes.dart';
 import 'package:flutter_ecommerce/shared/style/colors.dart';
+import 'package:get/get.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -25,7 +26,7 @@ class Login extends StatelessWidget {
               builder: (context) => Helpers.errorDialog(context: context, message: state.message)
           );
         }else if (state is AuthAuthenticatedState) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            Get.toNamed(Routes.home);
         }
       },
       builder: (context, state) {
