@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/Helpers/helpers.dart';
+import 'package:flutter_ecommerce/shared/network/dio_service.dart';
 import 'package:flutter_ecommerce/shared/network/local_network.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_states.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
+  final DioService _dioService = DioService();
+
   AuthCubit() : super(AuthInitialState());
 
   void register({required String name, required String email, required String phone, required String password}) async {
@@ -27,19 +29,13 @@ class AuthCubit extends Cubit<AuthStates> {
   Future<void> _authenticate(String endpoint, Map<String, String> body) async {
     emit(AuthLoadingState());
     try {
-      final response = await http.post(
-        Uri.parse('${Helpers.apiUrl}/$endpoint'),
-        body: body,
-        headers: {
-          'lang': 'en',
-        }
-      );
-      var responseBody = jsonDecode(response.body);
-      if (responseBody['status'] == true) {
-        await CacheNetwork.setCache('token', responseBody['data']['token']);
+      final response = await _dioService.post('${Helpers.apiUrl}/$endpoint',body);
+
+      if (response.data['status'] == true) {
+        await CacheNetwork.setCache('token', response.data['data']['token']);
         emit(AuthAuthenticatedState());
       } else {
-        emit(AuthErrorState(responseBody['message']));
+        emit(AuthErrorState(response.data['message']));
       }
     } catch (e) {
       emit(AuthErrorState('Unknown error occur'));
