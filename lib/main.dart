@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/locale/locale_translations.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter_ecommerce/routes/routes.dart';
 import 'package:flutter_ecommerce/shared/bloc/global_bloc_observer.dart';
@@ -25,7 +26,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
       ],
+      
       child:  GetMaterialApp(
+        locale: Get.deviceLocale ?? const Locale('ar'),
+        translations: LocaleTranslations(),
         initialRoute: Routes.home,
         getPages: AppPages.pages,
       ),

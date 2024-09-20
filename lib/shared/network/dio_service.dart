@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_ecommerce/shared/network/local_network.dart';
+import 'package:get/get.dart' as getx;
 
 class DioService {
   final Dio _dio = Dio(BaseOptions(
     headers: {
-      'lang': 'ar',
+      'lang': getx.Get.deviceLocale ?? 'ar',
     },
   ));
 
