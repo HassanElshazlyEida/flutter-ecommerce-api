@@ -5,6 +5,7 @@ import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dar
 import 'package:flutter_ecommerce/routes/routes.dart';
 import 'package:flutter_ecommerce/shared/bloc/global_bloc_observer.dart';
 import 'package:flutter_ecommerce/shared/network/local_network.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       ],
       
       child:  GetMaterialApp(
-        locale: Get.deviceLocale ?? const Locale('ar'),
+        locale: Locale((CacheNetwork.getCache('lang') ) ?? Get.deviceLocale.toString()) ,
         translations: LocaleTranslations(),
         initialRoute: Routes.home,
         getPages: AppPages.pages,
