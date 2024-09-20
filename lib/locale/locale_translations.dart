@@ -7,6 +7,9 @@ class LocaleTranslations implements Translations {
     "ar" : {
       "Home":"الصفحة الرئيسية",
       "Home Screen":"الصفحة الرئيسية",
+      "Success":"نجاح",
+      "Logout Successfully":"تسجيل الخروج بنجاح",
+      "Register Successfully":"تم التسجيل بنجاح",
     },
     "en" : {
 

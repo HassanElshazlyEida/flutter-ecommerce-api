@@ -5,7 +5,7 @@ import 'package:get/get.dart' as getx;
 class DioService {
   final Dio _dio = Dio(BaseOptions(
     headers: {
-      'lang': getx.Get.deviceLocale ?? 'ar',
+      'lang': CacheNetwork.getCache('lang')  ?? getx.Get.deviceLocale.toString(),
     },
   ));
 

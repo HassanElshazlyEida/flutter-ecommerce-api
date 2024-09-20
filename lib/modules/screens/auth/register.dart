@@ -29,6 +29,7 @@ class Register extends StatelessWidget {
             );
           }else if (state is AuthAuthenticatedState) {
             Get.toNamed(Routes.home);
+            Get.snackbar('Success'.tr, 'Register Successfully'.tr);
            }
         },
         builder: (context, state) {

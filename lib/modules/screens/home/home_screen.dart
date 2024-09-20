@@ -25,6 +25,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               UserRepository.logout();
               Get.toNamed(Routes.login);
+              Get.snackbar('Success'.tr, 'Logout Successfully'.tr);
             },
           ),
         ],

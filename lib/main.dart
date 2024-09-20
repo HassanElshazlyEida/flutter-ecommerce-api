@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       ],
       
       child:  GetMaterialApp(
-        locale: Locale((CacheNetwork.getCache('lang') ) ?? Get.deviceLocale.toString()) ,
+        locale: Locale(CacheNetwork.getCache('lang')  ?? Get.deviceLocale.toString()) ,
         translations: LocaleTranslations(),
         initialRoute: Routes.home,
         getPages: AppPages.pages,
