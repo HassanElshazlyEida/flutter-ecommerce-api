@@ -3,7 +3,7 @@ import 'package:flutter_ecommerce/shared/network/local_network.dart';
 import 'package:get/get.dart';
 
 class ThemeController extends GetxController {
-  var isDarkMode = false.obs;
+  var isDarkMode = (CacheNetwork.getCache('theme') == 'dark')? true.obs: false.obs;
 
   void toggleTheme() {
     isDarkMode.value = !isDarkMode.value;
