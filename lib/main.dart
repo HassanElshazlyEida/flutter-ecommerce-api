@@ -5,7 +5,7 @@ import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dar
 import 'package:flutter_ecommerce/routes/routes.dart';
 import 'package:flutter_ecommerce/shared/bloc/global_bloc_observer.dart';
 import 'package:flutter_ecommerce/shared/network/local_network.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_ecommerce/themes/theme_controller.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -15,6 +15,9 @@ void main() async {
 
   await CacheNetwork.init();
 
+  Get.lazyPut<ThemeController>(() => ThemeController());
+
+
   runApp(const MyApp());
 }
 
@@ -23,17 +26,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeController themeController = Get.find<ThemeController>();
+
+    
     return  MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
       ],
-      
-      child:  GetMaterialApp(
-        locale: Locale(CacheNetwork.getCache('lang')  ?? Get.deviceLocale.toString()) ,
-        translations: LocaleTranslations(),
-        initialRoute: Routes.home,
-        getPages: AppPages.pages,
-      ),
+      child: GetMaterialApp(
+          themeMode: themeController.currentTheme(),
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          locale: Locale(CacheNetwork.getCache('lang') ?? Get.deviceLocale.toString()),
+          translations: LocaleTranslations(),
+          initialRoute: Routes.home,
+          getPages: AppPages.pages,
+        )
     );
   }
 }

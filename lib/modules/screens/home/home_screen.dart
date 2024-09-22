@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecommerce/locale/locale_controller.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/user_repo.dart';
 import 'package:flutter_ecommerce/routes/routes.dart';
+import 'package:flutter_ecommerce/themes/theme_controller.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -10,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LocaleController localController = Get.put(LocaleController());
+    final ThemeController themeController = Get.find<ThemeController>();
 
     return  Scaffold(
       appBar: AppBar(
@@ -18,6 +20,12 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.language),
             onPressed: () {
               _showLanguageMenu(context, localController);
+            },
+          ),
+            IconButton(
+            icon: Obx(() => Icon(themeController.isDarkMode.value ? Icons.light_mode : Icons.dark_mode )),
+            onPressed: () {
+              themeController.toggleTheme();
             },
           ),
           IconButton(
