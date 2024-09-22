@@ -10,7 +10,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LocaleController localController = Get.put(LocaleController());
+    
+    final LocaleController localController = Get.find<LocaleController>();
     final ThemeController themeController = Get.find<ThemeController>();
 
     return  Scaffold(

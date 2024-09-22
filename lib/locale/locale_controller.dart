@@ -4,9 +4,12 @@ import 'package:get/get.dart';
 
 
 class LocaleController extends GetxController {
-   void changeLanguage(String langCode) {
+  void changeLanguage(String langCode) {
     CacheNetwork.setCache('lang', langCode);
     var locale = Locale(langCode);
     Get.updateLocale(locale);
+  }
+  static Locale lang(){
+    return Locale(CacheNetwork.getCache('lang') ?? Get.deviceLocale.toString());
   }
 }

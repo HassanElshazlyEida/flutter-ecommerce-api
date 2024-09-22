@@ -10,7 +10,7 @@ class ThemeController extends GetxController {
     CacheNetwork.setCache('theme', isDarkMode.value ? 'dark' : 'light');
     Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
   }
-  ThemeMode currentTheme(){
+  static ThemeMode theme(){
     var theme = CacheNetwork.getCache('theme');
     if(theme == 'dark'){
       return ThemeMode.dark;

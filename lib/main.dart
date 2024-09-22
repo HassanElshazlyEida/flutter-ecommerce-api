@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/locale/locale_controller.dart';
 import 'package:flutter_ecommerce/locale/locale_translations.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dart';
 import 'package:flutter_ecommerce/routes/routes.dart';
@@ -16,6 +17,7 @@ void main() async {
   await CacheNetwork.init();
 
   Get.lazyPut<ThemeController>(() => ThemeController());
+  Get.lazyPut<LocaleController>(() => LocaleController());
 
 
   runApp(const MyApp());
@@ -26,18 +28,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeController themeController = Get.find<ThemeController>();
-
-    
     return  MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
       ],
       child: GetMaterialApp(
-          themeMode: themeController.currentTheme(),
+          themeMode: ThemeController.theme(),
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
-          locale: Locale(CacheNetwork.getCache('lang') ?? Get.deviceLocale.toString()),
+          locale: LocaleController.lang(),
           translations: LocaleTranslations(),
           initialRoute: Routes.home,
           getPages: AppPages.pages,
