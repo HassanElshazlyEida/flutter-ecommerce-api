@@ -33,6 +33,58 @@ class ProfileScreen extends StatelessWidget {
               title: const Text('Profile'),
               centerTitle: true,
             ),
+            drawer: const MenuDrawer(),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      radius: 70,
+                      backgroundImage: NetworkImage('${cubit.userModel?.image}'),
+                      backgroundColor: Colors.transparent,
+                      
+                    )),
+                  const SizedBox(height: 16.0,),
+                  Text('${cubit.userModel?.name}',style: const TextStyle(fontSize: 22.0,fontWeight: FontWeight.bold),),
+                  Padding(
+                     padding: const EdgeInsets.only(left:20,top: 20,right: 10),
+                      child: Column(children: [
+                    const SizedBox(height: 60.0,),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Name',
+                        labelStyle: TextStyle(color: Colors.pink),
+                      ),
+                      initialValue: cubit.userModel?.name,
+                    ),
+                    const SizedBox(height: 16.0,),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: Colors.pink),
+                      ),
+                      initialValue: cubit.userModel?.email,
+                    ),
+                    const SizedBox(height: 16.0,),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Phone',
+                        labelStyle: TextStyle(color: Colors.pink),
+                      ),
+                      initialValue: cubit.userModel?.phone,
+                    ),
+                        ],
+                      )
+                  )
+                
+                  
+      
+                ],
+              ),
+            ),
           );
         },
       ),
