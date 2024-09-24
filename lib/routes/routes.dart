@@ -2,7 +2,6 @@ import 'package:flutter_ecommerce/layout/layout_screen.dart';
 import 'package:flutter_ecommerce/middleware/auth_middleware.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/login.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/register.dart';
-import 'package:flutter_ecommerce/modules/screens/home/home_screen.dart';
 import 'package:flutter_ecommerce/modules/screens/profile/profile_screen.dart';
 import 'package:get/get.dart';
 

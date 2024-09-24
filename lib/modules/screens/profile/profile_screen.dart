@@ -15,25 +15,21 @@ class ProfileScreen extends StatelessWidget {
       create: (context) => LayoutCubit()..userData(),
       child: BlocConsumer<LayoutCubit, LayoutStates>(
         listener: (context, state) {
-         if (state is ErrorUserDataState) {
+         if (state is ErrorFetchingDataState) {
             Get.toNamed(Routes.home);
             Get.snackbar('Error'.tr, state.message);
          }
         },
         builder: (context, state) {
-          if(state is LoadingUserDataState) {
+          if(state is FetchingDataState) {
             return const Scaffold(
               body:  Center(child: CircularProgressIndicator())
             );
           }
           final cubit = BlocProvider.of<LayoutCubit>(context); 
-
+        
+    
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Profile'),
-              centerTitle: true,
-            ),
-            drawer: const MenuDrawer(),
             body: Padding(
               padding: const EdgeInsets.symmetric(vertical: 40.0),
               child: Column(
@@ -59,6 +55,7 @@ class ProfileScreen extends StatelessWidget {
                         labelStyle: TextStyle(color: Colors.pink),
                       ),
                       initialValue: cubit.userModel?.name,
+                      readOnly: true,
                     ),
                     const SizedBox(height: 16.0,),
                     TextFormField(
@@ -67,6 +64,7 @@ class ProfileScreen extends StatelessWidget {
                         labelStyle: TextStyle(color: Colors.pink),
                       ),
                       initialValue: cubit.userModel?.email,
+                      readOnly: true,
                     ),
                     const SizedBox(height: 16.0,),
                     TextFormField(
@@ -75,6 +73,7 @@ class ProfileScreen extends StatelessWidget {
                         labelStyle: TextStyle(color: Colors.pink),
                       ),
                       initialValue: cubit.userModel?.phone,
+                      readOnly: true,
                     ),
                         ],
                       )

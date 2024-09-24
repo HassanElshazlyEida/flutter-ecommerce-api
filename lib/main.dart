@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     return  MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
-        BlocProvider(create: (context) => LayoutCubit()),
+        BlocProvider(create: (context) => LayoutCubit()..getBannersData()),
       ],
       child: GetMaterialApp(
           themeMode: ThemeController.theme(),

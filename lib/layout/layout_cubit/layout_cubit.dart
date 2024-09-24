@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/Helpers/helpers.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_states.dart';
+import 'package:flutter_ecommerce/models/banner_model.dart';
 import 'package:flutter_ecommerce/models/user_model.dart';
 import 'package:flutter_ecommerce/modules/screens/cart/cart_screen.dart';
 import 'package:flutter_ecommerce/modules/screens/categories/categories_screen.dart';
@@ -14,31 +15,60 @@ class LayoutCubit extends Cubit<LayoutStates> {
   LayoutCubit() : super(LayoutInitialState());
 
   final DioService _dio = DioService();
-  UserModel? userModel;
-  List<Widget> screens = [const CategoriesScreen(),const WishlistScreen(),const HomeScreen(),const CartScreen() ,const ProfileScreen()];
-  int bottomNavIndex = 0;
 
-  void userData () async {
-    // TODO : use cache to get user data
-    emit(LoadingUserDataState());
-    var response = await _dio.get('${Helpers.apiUrl}/profile');
-    try {
-      print(response.headers);
-      if(response.data['status'] == true){
-        userModel = UserModel.fromJson(response.data['data']);
-        emit(SuccessUserDataState());
-      }else{
-        emit(ErrorUserDataState(response.data['message']));
-      }
-     } catch (e) {
-      print(e);
-      emit(ErrorUserDataState('Unknown error occur'));
-    }
-  }
+  List<Widget> screens = [const CategoriesScreen(),const WishlistScreen(),const HomeScreen(),const CartScreen() ,const ProfileScreen()];
+
+  int bottomNavIndex = 2;
+
+  UserModel? userModel;
+  List<BannerModel> banners = [];
 
   void changeBottomNavIndex(int index) {
     bottomNavIndex = index;
     emit(ChangeBottomNavIndexState());
   }
+
+  Future<void> fetchData<T>({
+      required String endpoint,
+      required Function(dynamic) fromJson,
+      required Function(T) onSuccess,
+    }) async {
+      emit(FetchingDataState());
+      try {
+        var response = await _dio.get('${Helpers.apiUrl}$endpoint');
+        if (response.data['status'] == true) {
+          T data = fromJson(response.data['data']);
+          onSuccess(data);
+          emit(DataLoadedState());
+        } else {
+          emit(ErrorFetchingDataState(response.data['message']));
+        }
+      } catch (e) {
+        print(e);
+        emit(ErrorFetchingDataState('Unknown error occurred'));
+      }
+  }
+
+  void userData() {
+    fetchData<UserModel>(
+      endpoint: '/profile',
+      fromJson: (data) => UserModel.fromJson(data),
+      onSuccess: (data) {
+        userModel = data;
+      },
+    );
+   
+  }
+
+  void getBannersData() {
+    fetchData<List<BannerModel>>(
+      endpoint: '/banners',
+      fromJson: (data) => (data as List).map((e) => BannerModel.fromJson(e)).toList(),
+      onSuccess: (data) {
+        banners = data;
+      },
+    );
+  }
+
 
 }

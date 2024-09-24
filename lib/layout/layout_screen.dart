@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/component/menu_drawer.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_cubit.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_states.dart';
 import 'package:flutter_ecommerce/shared/style/colors.dart';
@@ -12,12 +13,13 @@ class LayoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<LayoutCubit>(context);
     
-    return BlocConsumer<LayoutCubit, LayoutStates>(
-      listener: (context, state) {
-        
-      },
+    return BlocBuilder<LayoutCubit, LayoutStates>(
       builder: (context, state) {
         return Scaffold(
+          drawer: const MenuDrawer(),
+          appBar: AppBar(
+            title: Image.asset('images/logo.png', height: 75, width: 75),
+          ),
           body: cubit.screens[cubit.bottomNavIndex],
           bottomNavigationBar:
             BottomNavigationBar(onTap: (value) {
