@@ -19,20 +19,7 @@ class MenuDrawer extends StatelessWidget {
         child: ListView(
           children: [
             DrawerHeader(child: Image.asset('images/logo.png',height: 100,width: 100)),
-             ListTile(
-              leading: const Icon(Icons.home),
-              title:  Text('Home'.tr),
-              onTap: () {
-                Get.toNamed(Routes.home);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title:  Text('Profile'.tr),
-              onTap: () {
-                Get.toNamed(Routes.profile);
-              },
-            ),
+           
             ListTile(
               leading: const Icon(Icons.language),
               title:  Text('Language'.tr),

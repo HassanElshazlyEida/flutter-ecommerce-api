@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 class AuthMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-
     if (!UserRepository.isAuthenticated()) {
        return const RouteSettings(name: Routes.login);
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/layout/layout_cubit/layout_cubit.dart';
 import 'package:flutter_ecommerce/locale/locale_controller.dart';
 import 'package:flutter_ecommerce/locale/locale_translations.dart';
 import 'package:flutter_ecommerce/modules/screens/auth/auth_cubit/auth_cubit.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
     return  MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
+        BlocProvider(create: (context) => LayoutCubit()),
       ],
       child: GetMaterialApp(
           themeMode: ThemeController.theme(),

@@ -17,6 +17,11 @@ class LocaleTranslations implements Translations {
       "Profile":"الملف الشخصي",
       "English":"الإنجليزية",
       "Arabic":"العربية",
+      "Wishlist":"قائمة الرغبات",
+      "Categories":"الفئات",
+      "Cart":"عربة التسوق",
+      "Login":"تسجيل الدخول",
+      "Register":"تسجيل",
     },
     "en" : {
 
