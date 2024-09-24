@@ -15,10 +15,19 @@ class DioService {
 
   void _initializeInterceptors() {
     _dio.interceptors.add(InterceptorsWrapper(
+        onRequest: (options, handler)  {
+        String? token =  CacheNetwork.getCache('token');
+        print('here $token');
+        if (token != null) {
+          options.headers['Authorization'] = token;
+        }
+        return handler.next(options);
+      },
       onResponse: (response, handler) {
         if (response.statusCode == 401) {
           CacheNetwork.removeCache('token');
         }
+        
         return handler.next(response);
       },
       onError: (DioException e, handler) {

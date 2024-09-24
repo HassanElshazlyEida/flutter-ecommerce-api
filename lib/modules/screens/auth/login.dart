@@ -26,7 +26,7 @@ class Login extends StatelessWidget {
               builder: (context) => Helpers.errorDialog(context: context, message: state.message)
           );
         }else if (state is AuthAuthenticatedState) {
-            Get.toNamed(Routes.home);
+            Get.offNamed(Routes.home);
         }
       },
       builder: (context, state) {
