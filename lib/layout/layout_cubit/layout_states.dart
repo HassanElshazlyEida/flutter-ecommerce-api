@@ -1,10 +1,25 @@
 abstract class LayoutStates {}
 
 class LayoutInitialState extends LayoutStates {}
-class FetchingDataState extends LayoutStates {}
-class DataLoadedState extends LayoutStates {}
 class ChangeBottomNavIndexState extends LayoutStates {}
-class ErrorFetchingDataState extends LayoutStates {
+
+class LoadingUserDataState extends LayoutStates {}
+class SuccessUserDataState extends LayoutStates {}
+class ErrorUserDataState extends LayoutStates {
   final String message;
-  ErrorFetchingDataState(this.message);
+  ErrorUserDataState(this.message);
+}
+
+class LoadingCategoriesState extends LayoutStates {}
+class SuccessCategoriesState extends LayoutStates {}
+class ErrorCategoriesState extends LayoutStates {
+  final String message;
+  ErrorCategoriesState(this.message);
+}
+
+class LoadingBannersState extends LayoutStates {}
+class SuccessBannersState extends LayoutStates {}
+class ErrorBannersState extends LayoutStates {
+  final String message;
+  ErrorBannersState(this.message);
 }

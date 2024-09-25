@@ -30,8 +30,7 @@ class HomeScreen extends StatelessWidget {
                       hintText: 'Search',
                       prefixIcon: const Icon(Icons.search),
                       suffixIcon: const Icon(Icons.clear),
-                      filled: true,
-                      fillColor: Colors.grey.withOpacity(0.1),
+                      
                       contentPadding: const EdgeInsets.all(0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
@@ -73,6 +72,36 @@ class HomeScreen extends StatelessWidget {
                       ),
                                     
                     ),
+                  ),
+                  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Categories',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                      TextButton(onPressed: (){}, child: const Text('View All',style: TextStyle(color: mainColor),))
+                    ],
+                  ),
+                  cubit.categories.isEmpty
+                  ? const Center(child: CupertinoActivityIndicator(),)
+                  :
+                   SizedBox(
+                    height: 70,
+                    width: double.infinity,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: cubit.categories.length,
+                      separatorBuilder: (context, index) => const SizedBox(width: 10,),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          child: 
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundImage: NetworkImage('${cubit.categories[index].image}'),
+                            ),
+                        );
+                      },
+                    )
                   )
                 ],
               ),

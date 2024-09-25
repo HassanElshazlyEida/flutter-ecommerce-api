@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ecommerce/component/menu_drawer.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_cubit.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_states.dart';
 import 'package:flutter_ecommerce/routes/routes.dart';
@@ -15,13 +14,13 @@ class ProfileScreen extends StatelessWidget {
       create: (context) => LayoutCubit()..userData(),
       child: BlocConsumer<LayoutCubit, LayoutStates>(
         listener: (context, state) {
-         if (state is ErrorFetchingDataState) {
+         if (state is ErrorUserDataState) {
             Get.toNamed(Routes.home);
             Get.snackbar('Error'.tr, state.message);
          }
         },
         builder: (context, state) {
-          if(state is FetchingDataState) {
+          if(state is LoadingUserDataState) {
             return const Scaffold(
               body:  Center(child: CircularProgressIndicator())
             );

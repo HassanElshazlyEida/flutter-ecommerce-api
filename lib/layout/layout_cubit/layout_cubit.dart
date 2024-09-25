@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/Helpers/helpers.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_states.dart';
 import 'package:flutter_ecommerce/models/banner_model.dart';
+import 'package:flutter_ecommerce/models/category_model.dart';
 import 'package:flutter_ecommerce/models/user_model.dart';
 import 'package:flutter_ecommerce/modules/screens/cart/cart_screen.dart';
 import 'package:flutter_ecommerce/modules/screens/categories/categories_screen.dart';
@@ -22,52 +23,59 @@ class LayoutCubit extends Cubit<LayoutStates> {
 
   UserModel? userModel;
   List<BannerModel> banners = [];
+  List<CategoryModel> categories = [];
 
   void changeBottomNavIndex(int index) {
     bottomNavIndex = index;
     emit(ChangeBottomNavIndexState());
   }
 
-  Future<void> fetchData<T>({
-      required String endpoint,
-      required Function(dynamic) fromJson,
-      required Function(T) onSuccess,
-    }) async {
-      emit(FetchingDataState());
-      try {
-        var response = await _dio.get('${Helpers.apiUrl}$endpoint');
-        if (response.data['status'] == true) {
-          T data = fromJson(response.data['data']);
-          onSuccess(data);
-          emit(DataLoadedState());
-        } else {
-          emit(ErrorFetchingDataState(response.data['message']));
-        }
-      } catch (e) {
-        print(e);
-        emit(ErrorFetchingDataState('Unknown error occurred'));
+  void userData() async {
+    emit(LoadingUserDataState());
+    try {
+      var response = await _dio.get('${Helpers.apiUrl}/profile');
+      if (response.data['status'] == true) {
+        userModel = UserModel.fromJson(response.data['data']);
+        emit(SuccessUserDataState());
+      } else {
+        emit(ErrorUserDataState(response.data['message']));
       }
+    } catch (e) {
+      print(e);
+      emit(ErrorUserDataState('Unknown error occurred'));
+    }
   }
 
-  void userData() {
-    fetchData<UserModel>(
-      endpoint: '/profile',
-      fromJson: (data) => UserModel.fromJson(data),
-      onSuccess: (data) {
-        userModel = data;
-      },
-    );
-   
+  void getBannersData() async {
+    emit(LoadingBannersState());
+    try {
+      var response = await _dio.get('${Helpers.apiUrl}/banners');
+      if (response.data['status'] == true) {
+       banners = (response.data['data'] as List).map((e) => BannerModel.fromJson(e)).toList();
+        emit(SuccessBannersState());
+      } else {
+        emit(ErrorBannersState(response.data['message']));
+      }
+    } catch (e) {
+      print(e);
+      emit(ErrorBannersState('Unknown error occurred'));
+    }
   }
 
-  void getBannersData() {
-    fetchData<List<BannerModel>>(
-      endpoint: '/banners',
-      fromJson: (data) => (data as List).map((e) => BannerModel.fromJson(e)).toList(),
-      onSuccess: (data) {
-        banners = data;
-      },
-    );
+  void getCategoriesData() async {
+    emit(LoadingCategoriesState());
+    try {
+      var response = await _dio.get('${Helpers.apiUrl}/categories');
+      if (response.data['status'] == true) {
+        categories = (response.data['data']['data'] as List).map((e) => CategoryModel.fromJson(e)).toList();
+        emit(SuccessCategoriesState());
+      } else {
+        emit(ErrorCategoriesState(response.data['message']));
+      }
+    } catch (e) {
+      print(e);
+      emit(ErrorCategoriesState('Unknown error occurred'));
+    }
   }
 
 
