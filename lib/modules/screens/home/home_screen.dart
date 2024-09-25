@@ -143,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  ((state is SuccessProductsState || state is FilterProductsState) && cubit.products.isNotEmpty)?GridView.builder(
+                  (cubit.products.isNotEmpty)?GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

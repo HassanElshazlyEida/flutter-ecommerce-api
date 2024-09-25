@@ -112,6 +112,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
 
 
   void fetchData() {
+    products = [];
     getProductsData();
   }
 
