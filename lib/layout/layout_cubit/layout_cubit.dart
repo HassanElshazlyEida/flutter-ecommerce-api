@@ -13,6 +13,7 @@ import 'package:flutter_ecommerce/modules/screens/profile/profile_screen.dart';
 import 'package:flutter_ecommerce/modules/screens/wishlist_screen/wishlist_screen.dart';
 import 'package:flutter_ecommerce/routes/routes.dart';
 import 'package:flutter_ecommerce/shared/network/dio_service.dart';
+import 'package:flutter_ecommerce/shared/network/local_network.dart';
 
 class LayoutCubit extends Cubit<LayoutStates> {
   LayoutCubit() : super(LayoutInitialState());
@@ -107,5 +108,15 @@ class LayoutCubit extends Cubit<LayoutStates> {
   void filterProducts(String text) {
     filteredProducts = products.where((element) => element.name!.toLowerCase().contains(text.toLowerCase())).toList();
     emit(FilterProductsState());
+  }
+
+
+  void fetchData() {
+    getProductsData();
+  }
+
+  void updateLanguage() {
+    _dio.dio.options.headers['lang'] = CacheNetwork.getCache('lang');
+    emit(LanguageChangedState());
   }
 }

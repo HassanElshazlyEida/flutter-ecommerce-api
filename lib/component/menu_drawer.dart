@@ -25,13 +25,15 @@ class MenuDrawer extends StatelessWidget {
               title:  Text('Language'.tr),
               onTap: () {
                 _showLanguageMenu(context, localController);
+                
               },
             ),
             ListTile(
               leading:Obx(() => Icon(themeController.isDarkMode.value ? Icons.light_mode : Icons.dark_mode )),
               title:  Text('Theme'.tr),
               onTap: () {
-                 themeController.toggleTheme();
+                themeController.toggleTheme();
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -50,9 +52,9 @@ class MenuDrawer extends StatelessWidget {
   }
       
 
- void _showLanguageMenu(BuildContext context, LocaleController localController) {
+ void _showLanguageMenu(BuildContext menu, LocaleController localController) {
     showModalBottomSheet(
-      context: context,
+      context: menu,
       builder: (BuildContext context) {
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -63,6 +65,7 @@ class MenuDrawer extends StatelessWidget {
               onTap: () {
                 localController.changeLanguage('en');
                 Navigator.pop(context);
+                Navigator.pop(menu);
               },
             ),
             ListTile(
@@ -71,6 +74,7 @@ class MenuDrawer extends StatelessWidget {
               onTap: () {
                 localController.changeLanguage('ar');
                 Navigator.pop(context);
+                Navigator.pop(menu);
               },
             ),
           ],

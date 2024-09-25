@@ -19,7 +19,7 @@ void main() async {
 
   Get.lazyPut<ThemeController>(() => ThemeController());
   Get.lazyPut<LocaleController>(() => LocaleController());
-
+  Get.lazyPut<LayoutCubit>(() => LayoutCubit());
 
   runApp(const MyApp());
 }
@@ -32,14 +32,15 @@ class MyApp extends StatelessWidget {
     return  MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
-        BlocProvider(create: (context) => LayoutCubit()..getBannersData()..getCategoriesData()..getProductsData()),
+        BlocProvider(create: (context) =>  Get.find<LayoutCubit>()
+        ..getBannersData()..getCategoriesData()..getProductsData()
+        ),
       ],
       child: GetMaterialApp(
-        
           themeMode: ThemeController.theme(),
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
-          locale: LocaleController.lang(),
+          locale: LocaleController.lang(),  
           translations: LocaleTranslations(),
           initialRoute: Routes.home,
           getPages: AppPages.pages,

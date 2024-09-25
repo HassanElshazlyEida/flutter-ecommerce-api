@@ -22,6 +22,9 @@ class LocaleTranslations implements Translations {
       "Cart":"عربة التسوق",
       "Login":"تسجيل الدخول",
       "Register":"تسجيل",
+      "Products":"المنتجات",
+      "Search":"بحث",
+      "View All":"عرض الكل",
     },
     "en" : {
 

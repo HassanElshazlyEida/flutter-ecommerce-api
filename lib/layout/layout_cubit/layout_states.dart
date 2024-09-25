@@ -31,3 +31,5 @@ class ErrorProductsState extends LayoutStates {
   final String message;
   ErrorProductsState(this.message);
 }
+
+class LanguageChangedState extends LayoutStates {}

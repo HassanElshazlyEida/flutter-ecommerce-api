@@ -16,11 +16,16 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = BlocProvider.of<LayoutCubit>(context);
+    final cubit = Get.find<LayoutCubit>();
     final pageController = PageController();
     final TextEditingController searchController = TextEditingController();
 
-    return BlocBuilder<LayoutCubit, LayoutStates>(
+    return BlocConsumer<LayoutCubit, LayoutStates>(
+      listener: (context, state) {
+        if (state is LanguageChangedState) {
+          cubit.fetchData(); 
+        }
+      },
       builder: (context, state) {
         return Scaffold(
             drawer: const MenuDrawer(),
@@ -76,11 +81,11 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Categories',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                      Text('Categories'.tr,style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                       TextButton(onPressed: (){
                         cubit.changeBottomNavIndex(cubit.screenRoutes[Routes.categories]!);
                         Get.toNamed(Routes.home);
-                      }, child: const Text('View All',style: TextStyle(color: mainColor),))
+                      }, child:  Text('View All'.tr,style: const TextStyle(color: mainColor),))
                     ],
                   ),
                   cubit.categories.isEmpty
@@ -108,11 +113,11 @@ class HomeScreen extends StatelessWidget {
                     Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Products',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    Text('Products'.tr,style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                     TextButton(onPressed: (){
                       cubit.changeBottomNavIndex(cubit.screenRoutes[Routes.categories]!);
                       Get.toNamed(Routes.home);
-                    }, child: const Text('View All',style: TextStyle(color: mainColor),))
+                    }, child:  Text('View All'.tr,style: const TextStyle(color: mainColor),))
                   ],
                   ),
                   const SizedBox(height: 10,),
@@ -122,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                       cubit.filterProducts(value);
                     },
                     decoration: InputDecoration(
-                      hintText: 'Search',
+                      hintText: 'Search'.tr,
                       prefixIcon: const Icon(Icons.search),
                       suffixIcon:IconButton(
                         icon: const Icon(Icons.clear),
@@ -138,10 +143,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  cubit.products.isEmpty
-                  ? const Center(child: CupertinoActivityIndicator(),)
-                  :
-                  GridView.builder(
+                  ((state is SuccessProductsState || state is FilterProductsState) && cubit.products.isNotEmpty)?GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -155,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return _productItem(cubit.filteredProducts.isEmpty? cubit.products[index] : cubit.filteredProducts[index]);
                       },
-                    ),
+                    ):const Center(child: CupertinoActivityIndicator(),)
                 
                 ],
               ),
@@ -163,6 +165,7 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
+
   Widget _productItem(ProductModel model) {
     return Padding(
       padding: const EdgeInsets.all(8.0),

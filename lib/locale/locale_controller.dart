@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/layout/layout_cubit/layout_cubit.dart';
 import 'package:flutter_ecommerce/shared/network/local_network.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,8 @@ class LocaleController extends GetxController {
     CacheNetwork.setCache('lang', langCode);
     var locale = Locale(langCode);
     Get.updateLocale(locale);
+    Get.find<LayoutCubit>().updateLanguage();
+    
   }
   static Locale lang(){
     return Locale(CacheNetwork.getCache('lang') ?? Get.deviceLocale.toString());
