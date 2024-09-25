@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<LayoutCubit>(context);
     final pageController = PageController();
+    final TextEditingController searchController = TextEditingController();
 
     return BlocBuilder<LayoutCubit, LayoutStates>(
       builder: (context, state) {
@@ -28,19 +29,7 @@ class HomeScreen extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: const Icon(Icons.clear),
-                      
-                      contentPadding: const EdgeInsets.all(0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
+                
                   cubit.banners.isEmpty
                   ? const Center(child: CupertinoActivityIndicator(),)
                   :
@@ -54,7 +43,13 @@ class HomeScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Container(
                           margin: const EdgeInsets.symmetric(horizontal: 5),
-                          child:Image.network('${cubit.banners[index].image}',fit: BoxFit.fill)
+                          child:ClipRRect(
+                              borderRadius: BorderRadius.circular(10), // Set the border radius
+                              child: Image.network(
+                                '${cubit.banners[index].image}',
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                         );
                         
                       },
@@ -66,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                     child: SmoothPageIndicator(
                       controller: pageController,
                       count: cubit.banners.length,
-                      effect: const ExpandingDotsEffect(
+                      effect: const ScrollingDotsEffect(
                         dotColor: secondColor,
                         activeDotColor: mainColor,
                         dotHeight: 10,
@@ -120,6 +115,29 @@ class HomeScreen extends StatelessWidget {
                     }, child: const Text('View All',style: TextStyle(color: mainColor),))
                   ],
                   ),
+                  const SizedBox(height: 10,),
+                    TextFormField(
+                    controller: searchController,
+                    onChanged: (value) {
+                      cubit.filterProducts(value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search',
+                      prefixIcon: const Icon(Icons.search),
+                      suffixIcon:IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          searchController.clear();
+                          cubit.filterProducts('');
+                        },
+                      ),
+                      contentPadding: const EdgeInsets.all(0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
                   cubit.products.isEmpty
                   ? const Center(child: CupertinoActivityIndicator(),)
                   :
@@ -133,9 +151,9 @@ class HomeScreen extends StatelessWidget {
                         mainAxisSpacing: 4,
                         
                       ),
-                      itemCount: cubit.products.length,
+                      itemCount: cubit.filteredProducts.isEmpty? cubit.products.length : cubit.filteredProducts.length,
                       itemBuilder: (context, index) {
-                        return _productItem(cubit.products[index]);
+                        return _productItem(cubit.filteredProducts.isEmpty? cubit.products[index] : cubit.filteredProducts[index]);
                       },
                     ),
                 

@@ -102,4 +102,10 @@ class LayoutCubit extends Cubit<LayoutStates> {
       emit(ErrorProductsState('Unknown error occurred'));
     }
   }
+
+  List<ProductModel> filteredProducts = [];
+  void filterProducts(String text) {
+    filteredProducts = products.where((element) => element.name!.toLowerCase().contains(text.toLowerCase())).toList();
+    emit(FilterProductsState());
+  }
 }
