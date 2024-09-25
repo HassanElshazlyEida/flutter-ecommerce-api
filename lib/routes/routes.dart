@@ -10,6 +10,10 @@ class Routes {
   static const login = '/login';
   static const register = '/register';
   static const profile = '/profile';
+  static const categories = '/categories';
+  static const wishlist = '/wishlist';
+  static const cart = '/cart';
+  
 }
 
 class AppPages {
@@ -35,6 +39,7 @@ class AppPages {
       name: Routes.profile,
       page: () =>const  ProfileScreen(),
       middlewares: [AuthMiddleware()],
-    )
+    ),
+
   ];
 }

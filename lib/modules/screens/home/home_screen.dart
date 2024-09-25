@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ecommerce/component/menu_drawer.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_cubit.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_states.dart';
+import 'package:flutter_ecommerce/models/product_model.dart';
+import 'package:flutter_ecommerce/routes/routes.dart';
 import 'package:flutter_ecommerce/shared/style/colors.dart';
+import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
@@ -69,6 +72,7 @@ class HomeScreen extends StatelessWidget {
                         dotHeight: 10,
                         dotWidth: 10,
                         spacing: 5.0,
+                        
                       ),
                                     
                     ),
@@ -78,7 +82,10 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Categories',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                      TextButton(onPressed: (){}, child: const Text('View All',style: TextStyle(color: mainColor),))
+                      TextButton(onPressed: (){
+                        cubit.changeBottomNavIndex(cubit.screenRoutes[Routes.categories]!);
+                        Get.toNamed(Routes.home);
+                      }, child: const Text('View All',style: TextStyle(color: mainColor),))
                     ],
                   ),
                   cubit.categories.isEmpty
@@ -102,11 +109,91 @@ class HomeScreen extends StatelessWidget {
                         );
                       },
                     )
-                  )
+                  ),
+                    Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Products',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    TextButton(onPressed: (){
+                      cubit.changeBottomNavIndex(cubit.screenRoutes[Routes.categories]!);
+                      Get.toNamed(Routes.home);
+                    }, child: const Text('View All',style: TextStyle(color: mainColor),))
+                  ],
+                  ),
+                  cubit.products.isEmpty
+                  ? const Center(child: CupertinoActivityIndicator(),)
+                  :
+                  GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.8,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 4,
+                        
+                      ),
+                      itemCount: cubit.products.length,
+                      itemBuilder: (context, index) {
+                        return _productItem(cubit.products[index]);
+                      },
+                    ),
+                
                 ],
               ),
             ));
       },
     );
+  }
+  Widget _productItem(ProductModel model) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child:  Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 3,
+                offset: Offset(0, 1),
+              )
+            ]
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+          child: Column(
+            children: [
+              Expanded(
+                child: Image.network(model.image!,fit: BoxFit.fill),
+              ),
+              const SizedBox(height: 20,),
+              Text(model.name!,style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis),),
+              Text(model.description!,maxLines: 2, style: const TextStyle(fontSize: 13,color: Colors.grey,overflow: TextOverflow.ellipsis),),
+              const SizedBox(height: 7,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Text('${model.price!}\$',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.blue),),
+                        const SizedBox(width: 5,),
+                        if(model.discount != 0)
+                        Text('${model.oldPrice!}\$',style: const TextStyle(fontSize: 13,fontWeight: FontWeight.bold,color: Colors.grey,decoration: TextDecoration.lineThrough),),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    child:  const Icon(Icons.favorite_border,color: Colors.pink,size: 20,),
+                    
+                    onTap: (){},
+                  )
+                  
+                ],
+              )
+              
+            ],
+          ),
+        ));
   }
 }

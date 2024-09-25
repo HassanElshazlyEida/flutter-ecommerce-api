@@ -23,3 +23,10 @@ class ErrorBannersState extends LayoutStates {
   final String message;
   ErrorBannersState(this.message);
 }
+
+class LoadingProductsState extends LayoutStates {}
+class SuccessProductsState extends LayoutStates {}
+class ErrorProductsState extends LayoutStates {
+  final String message;
+  ErrorProductsState(this.message);
+}

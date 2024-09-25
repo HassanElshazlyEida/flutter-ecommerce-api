@@ -21,6 +21,7 @@ class LayoutScreen extends StatelessWidget {
             title: Image.asset('images/logo.png', height: 75, width: 75),
           ),
           body: cubit.screens[cubit.bottomNavIndex],
+          backgroundColor: Colors.grey[200],
           bottomNavigationBar:
             BottomNavigationBar(onTap: (value) {
               cubit.changeBottomNavIndex(value);
