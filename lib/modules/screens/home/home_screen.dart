@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
         if (state is LanguageChangedState) {
-          cubit.fetchData(); 
+          cubit.reloadProducts(); 
         }
       },
       builder: (context, state) {

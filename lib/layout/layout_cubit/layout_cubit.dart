@@ -111,9 +111,13 @@ class LayoutCubit extends Cubit<LayoutStates> {
   }
 
 
-  void fetchData() {
+  void reloadProducts() {
     products = [];
     getProductsData();
+  }
+  void reloadCategories(){
+    categories = [];
+    getCategoriesData();
   }
 
   void updateLanguage() {
