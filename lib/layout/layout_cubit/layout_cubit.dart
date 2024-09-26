@@ -106,22 +106,66 @@ class LayoutCubit extends Cubit<LayoutStates> {
 
   List<ProductModel> filteredProducts = [];
   void filterProducts(String text) {
-    filteredProducts = products.where((element) => element.name!.toLowerCase().contains(text.toLowerCase())).toList();
+    filteredProducts = products.where((element) => element.name!.contains(text)).toList();
     emit(FilterProductsState());
   }
 
 
-  void reloadProducts() {
+
+  void reloadData() {
+    _dio.dio.options.headers['lang'] = CacheNetwork.getCache('lang') ?? 'en';
     products = [];
-    getProductsData();
-  }
-  void reloadCategories(){
-    categories = [];
+    categories = [];  
+    wishlist = [];
+    filteredProducts = [];
+    filteredWishlist = [];
+    userModel = null;
     getCategoriesData();
+    getProductsData();
+    getWishlistData();
+    userData();
   }
 
-  void updateLanguage() {
-    _dio.dio.options.headers['lang'] = CacheNetwork.getCache('lang');
-    emit(LanguageChangedState());
+
+
+  List<ProductModel> wishlist = [];
+  void getWishlistData() async {
+    emit(LoadingWishlistState());
+    try {
+      var response = await _dio.get('${Helpers.apiUrl}/favorites');
+      if (response.data['status'] == true) {
+
+        wishlist = (response.data['data']['data'] as List).map((e) {
+          var productJson = e['product'] as Map<String, dynamic>;
+          productJson['in_favorites'] = true;
+          return ProductModel.fromJson(productJson);
+        }).toList();
+        emit(SuccessWishlistState());
+      } else {
+        emit(ErrorWishlistState(response.data['message']));
+      }
+    } catch (e) {
+      print(e);
+      emit(ErrorWishlistState('Unknown error occurred'));
+    }
+  }
+  List<ProductModel> filteredWishlist = [];
+  void filterWishlist(String text) {
+    
+    filteredWishlist = wishlist.where((element) => element.name!.contains(text)).toList();
+    emit(FilterWishlistState());
+  }
+
+  void changeProductFavorite(int id) async {
+    try {
+      var response = await _dio.post('${Helpers.apiUrl}/favorites', {
+        'product_id': id.toString(),
+      });
+      if (response.data['status'] == true) {
+        getWishlistData();
+      } 
+    } catch (e) {
+      print(e);
+    }
   }
 }

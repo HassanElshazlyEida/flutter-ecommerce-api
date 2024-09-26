@@ -10,9 +10,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocProvider(
-      create: (context) => LayoutCubit()..userData(),
-      child: BlocConsumer<LayoutCubit, LayoutStates>(
+    return   BlocConsumer<LayoutCubit, LayoutStates>(
         listener: (context, state) {
          if (state is ErrorUserDataState) {
             Get.toNamed(Routes.home);
@@ -85,7 +83,6 @@ class ProfileScreen extends StatelessWidget {
             ),
           );
         },
-      ),
     );
   }
 }

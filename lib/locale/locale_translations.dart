@@ -25,6 +25,10 @@ class LocaleTranslations implements Translations {
       "Products":"المنتجات",
       "Search":"بحث",
       "View All":"عرض الكل",
+      "No products found":"لم يتم العثور على منتجات",
+      "Added to favorites":"تمت الإضافة إلى المفضلة",
+      "Removed from favorites":"تمت الإزالة من المفضلة",
+      "EGP":"جنيه",
     },
     "en" : {
 

@@ -11,9 +11,14 @@ import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final cubit = Get.find<LayoutCubit>();
@@ -22,9 +27,7 @@ class HomeScreen extends StatelessWidget {
 
     return BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
-        if (state is LanguageChangedState) {
-          cubit.reloadProducts(); 
-        }
+       
       },
       builder: (context, state) {
         return Scaffold(
@@ -167,6 +170,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _productItem(ProductModel model) {
+    final cubit = Get.find<LayoutCubit>();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child:  Container(
@@ -194,20 +198,33 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
+                    Column(
                       children: [
-                        Text('${model.price!}\$',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.blue),),
+                        Text('${model.price!} ${'EGP'.tr}',style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold,color: Colors.blue),),
                         const SizedBox(width: 5,),
                         if(model.discount != 0)
-                        Text('${model.oldPrice!}\$',style: const TextStyle(fontSize: 13,fontWeight: FontWeight.bold,color: Colors.grey,decoration: TextDecoration.lineThrough),),
+                        Text('${model.oldPrice!} ${'EGP'.tr}',style: const TextStyle(fontSize: 11,fontWeight: FontWeight.bold,color: Colors.grey,decoration: TextDecoration.lineThrough),),
                       ],
                     ),
-                  ),
                   GestureDetector(
-                    child:  const Icon(Icons.favorite_border,color: Colors.pink,size: 20,),
-                    
-                    onTap: (){},
+                    onTap: () {
+                      // Add your onTap functionality here
+                    },
+                    child: IconButton(
+                      onPressed: (){
+                        setState(() {
+                          model.isFavorite = !model.isFavorite!;
+                        });
+                        cubit.changeProductFavorite(model.id!);
+                        Get.snackbar(
+                          'Success'.tr,
+                          (model.isFavorite == true) ? 'Added to favorites'.tr : 'Removed from favorites'.tr,
+                   
+                        );
+                      },
+                      icon: const Icon(Icons.favorite),
+                      color: (model.isFavorite == true) ? Colors.pink : Colors.grey,
+                    ),
                   )
                   
                 ],

@@ -32,4 +32,10 @@ class ErrorProductsState extends LayoutStates {
   ErrorProductsState(this.message);
 }
 
-class LanguageChangedState extends LayoutStates {}
+class LoadingWishlistState extends LayoutStates {}
+class SuccessWishlistState extends LayoutStates {}
+class FilterWishlistState extends LayoutStates {}
+class ErrorWishlistState extends LayoutStates {
+  final String message;
+  ErrorWishlistState(this.message);
+}

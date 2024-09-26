@@ -33,12 +33,19 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) =>  Get.find<LayoutCubit>()
-        ..getBannersData()..getCategoriesData()..getProductsData()
+        ..getBannersData()
+        ..getCategoriesData()
+        ..getProductsData()
+        ..getWishlistData()
+        ..userData()
         ),
       ],
       child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
           themeMode: ThemeController.theme(),
-          theme: ThemeData.light(),
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.grey[100], 
+          ),
           darkTheme: ThemeData.dark(),
           locale: LocaleController.lang(),  
           translations: LocaleTranslations(),

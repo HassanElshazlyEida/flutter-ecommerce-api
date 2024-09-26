@@ -14,9 +14,7 @@ class CategoriesScreen extends StatelessWidget {
     
     return  BlocConsumer<LayoutCubit, LayoutStates>(
       listener: (context, state) {
-        if (state is LanguageChangedState) {
-          cubit.reloadCategories(); 
-        }
+   
       },
       builder: (context, state) {
       return Scaffold(

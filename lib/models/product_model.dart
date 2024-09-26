@@ -6,7 +6,7 @@ class ProductModel {
   final int? oldPrice;
   final int? discount;
   final String? image;
-  final bool? isFavorite;
+  bool? isFavorite;
   final bool? inCart;
 
   ProductModel({

@@ -9,7 +9,7 @@ class LocaleController extends GetxController {
     CacheNetwork.setCache('lang', langCode);
     var locale = Locale(langCode);
     Get.updateLocale(locale);
-    Get.find<LayoutCubit>().updateLanguage();
+    Get.find<LayoutCubit>().reloadData();
     
   }
   static Locale lang(){
