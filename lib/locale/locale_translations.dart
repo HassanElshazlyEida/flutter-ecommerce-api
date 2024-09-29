@@ -37,6 +37,7 @@ class LocaleTranslations implements Translations {
       "Name":"الاسم",
       "Email":"البريد الإلكتروني",
       "Phone":"الهاتف",
+      "Cart is Empty":"السلة فارغة",
     },
     "en" : {
 

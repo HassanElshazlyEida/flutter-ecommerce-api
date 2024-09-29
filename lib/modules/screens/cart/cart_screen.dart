@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_ecommerce/component/product_row_component.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_cubit.dart';
 import 'package:flutter_ecommerce/layout/layout_cubit/layout_states.dart';
-import 'package:flutter_ecommerce/models/product_model.dart';
 import 'package:get/get.dart';
 
 
@@ -23,7 +23,10 @@ class CartScreen extends StatelessWidget {
             return const Center(child: CupertinoActivityIndicator());
           }
           return Scaffold(
-            body:  Padding(
+            body:  
+            cubit.totalPrice == 0 ?
+            Center(child: Text('Cart is Empty'.tr,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)):
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child : Column(
               children: [
@@ -44,7 +47,21 @@ class CartScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     itemCount:  cubit.cart.length,
                     itemBuilder: (context, index) {
-                      return _productCartItem(cubit.cart[index]);
+                        var model = cubit.cart[index];
+                        return ProductRowComponent(
+                          model : model,
+                          onPressed: (){
+                            cubit.products.where((element) => element.id == model.id).first.inCart = false;
+                            cubit.toggleProductCart(model.id!);
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Get.snackbar(
+                                'Success'.tr, 
+                                'Removed from cart'.tr,
+                              );
+                            });
+
+                          },
+                        );
                     },
                   ),
                 )
@@ -56,45 +73,5 @@ class CartScreen extends StatelessWidget {
         }
     );
   }
-   Widget _productCartItem(ProductModel model){
-    final cubit = Get.find<LayoutCubit>();
-    return Card(
-      color: Colors.white,
-      surfaceTintColor:Colors.white,
-      child:
-         ListTile(  
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(10), // Set the border radius
-            child: Image.network(
-              model.image!,
-              width: 70,
- 
-              fit: BoxFit.fill,
-            ),
-          ),
-          title: Text(model.name!,maxLines: 2,style: const TextStyle(fontSize: 14),),
-          subtitle:  Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('${model.price!} ${'EGP'.tr}',style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blue),),
-              const SizedBox(width: 5,),
-              if(model.discount != 0)
-              Text('${model.oldPrice!} ${'EGP'.tr}',style: const TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.grey,decoration: TextDecoration.lineThrough),),
-            ],
-          ),
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              cubit.products.where((element) => element.id == model.id).first.inCart = false;
-              cubit.toggleProductCart(model.id!);
-              Get.snackbar(
-                'Success'.tr, 
-                'Removed from cart'.tr,
-              );
-            },
-          ),
-   
-      )
-      );
-  }
+
 }
