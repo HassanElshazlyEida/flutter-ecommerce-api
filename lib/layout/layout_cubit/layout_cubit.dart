@@ -109,25 +109,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
     filteredProducts = products.where((element) => element.name!.contains(text)).toList();
     emit(FilterProductsState());
   }
-
-
-
-  void reloadData() {
-    _dio.dio.options.headers['lang'] = CacheNetwork.getCache('lang') ?? 'en';
-    products = [];
-    categories = [];  
-    wishlist = [];
-    filteredProducts = [];
-    filteredWishlist = [];
-    userModel = null;
-    getCategoriesData();
-    getProductsData();
-    getWishlistData();
-    userData();
-  }
-
-
-
+ 
   List<ProductModel> wishlist = [];
   void getWishlistData() async {
     emit(LoadingWishlistState());
@@ -156,13 +138,62 @@ class LayoutCubit extends Cubit<LayoutStates> {
     emit(FilterWishlistState());
   }
 
-  void changeProductFavorite(int id) async {
+  void toggleProductWishlist(int id) async {
     try {
+      emit(AddOrRemoveWishlistState());
       var response = await _dio.post('${Helpers.apiUrl}/favorites', {
         'product_id': id.toString(),
       });
       if (response.data['status'] == true) {
         getWishlistData();
+      } 
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void reloadData() {
+    _dio.dio.options.headers['lang'] = CacheNetwork.getCache('lang') ?? 'en';
+    products = [];
+    categories = [];  
+    wishlist = [];
+    filteredProducts = [];
+    filteredWishlist = [];
+    userModel = null;
+    getCategoriesData();
+    getProductsData();
+    getWishlistData();
+    userData();
+  }
+  List<ProductModel> cart = [];
+  int totalPrice = 0;
+  int subTotal = 0;
+  void getCartData() async {
+    emit(LoadingCartState());
+    try {
+      var response = await _dio.get('${Helpers.apiUrl}/carts');
+      if (response.data['status'] == true) {
+        cart  = (response.data['data']['cart_items'] as List).map((e) => ProductModel.fromJson(e['product'])).toList();
+        totalPrice = response.data['data']['total'];
+        subTotal = response.data['data']['sub_total'];
+        emit(SuccessCartState());
+      } else {
+        emit(ErrorCartState(response.data['message']));
+      }
+    } catch (e) {
+      print(e);
+      emit(ErrorCartState('Unknown error occurred'));
+    }
+  }
+
+  void toggleProductCart(int id) async {
+    try {
+      emit(AddOrRemoveCartState());
+      var response = await _dio.post('${Helpers.apiUrl}/carts', {
+        'product_id': id.toString(),
+      });
+      if (response.data['status'] == true) {
+        getCartData();
       } 
     } catch (e) {
       print(e);

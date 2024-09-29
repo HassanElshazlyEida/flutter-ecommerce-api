@@ -36,7 +36,9 @@ class _ProductComponentState extends State<ProductComponent> {
           padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
           child: Column(
             children: [
-              Expanded(
+              Container(
+                height: 100,
+                padding: const EdgeInsets.all(8),
                 child: Image.network(model.image!,fit: BoxFit.fill),
               ),
               const SizedBox(height: 20,),
@@ -63,7 +65,7 @@ class _ProductComponentState extends State<ProductComponent> {
                         setState(() {
                           model.isFavorite = !model.isFavorite!;
                         });
-                        cubit.changeProductFavorite(model.id!);
+                        cubit.toggleProductWishlist(model.id!);
                         Get.snackbar(
                           'Success'.tr,
                           (model.isFavorite == true) ? 'Added to favorites'.tr : 'Removed from favorites'.tr,
@@ -76,7 +78,28 @@ class _ProductComponentState extends State<ProductComponent> {
                   )
                   
                 ],
-              )
+              ),
+
+              TextButton(
+                onPressed: () {
+                 setState(() {
+                    model.inCart = !model.inCart!;
+                  });
+                  cubit.toggleProductCart(model.id!);
+                  Get.snackbar(
+                    'Success'.tr,
+                    (model.inCart == true) ? 'Added to cart'.tr : 'Removed from cart'.tr,
+                  );
+                },
+                style: TextButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 40),
+                  backgroundColor: (model.inCart == true) ? Colors.redAccent : Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text((model.inCart == true) ? 'Remove from cart'.tr : 'Add to cart'.tr,style: const TextStyle(color: Colors.white),),
+              ),
               
             ],
           ),

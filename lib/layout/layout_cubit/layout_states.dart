@@ -34,8 +34,17 @@ class ErrorProductsState extends LayoutStates {
 
 class LoadingWishlistState extends LayoutStates {}
 class SuccessWishlistState extends LayoutStates {}
+class AddOrRemoveWishlistState extends LayoutStates {}
 class FilterWishlistState extends LayoutStates {}
 class ErrorWishlistState extends LayoutStates {
   final String message;
   ErrorWishlistState(this.message);
+}
+
+class LoadingCartState extends LayoutStates {}
+class SuccessCartState extends LayoutStates {}
+class AddOrRemoveCartState extends LayoutStates {}
+class ErrorCartState extends LayoutStates {
+  final String message;
+  ErrorCartState(this.message);
 }

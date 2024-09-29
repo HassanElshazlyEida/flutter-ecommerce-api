@@ -29,6 +29,11 @@ class LocaleTranslations implements Translations {
       "Added to favorites":"تمت الإضافة إلى المفضلة",
       "Removed from favorites":"تمت الإزالة من المفضلة",
       "EGP":"جنيه",
+      "Total Price":"السعر الإجمالي",
+      "Removed from cart":"تمت الإزالة من السلة",
+      "Add to cart":"أضف إلى السلة",
+      "Added to cart":"تمت الإضافة إلى السلة",
+      "Remove from cart":"إزالة من السلة",
     },
     "en" : {
 

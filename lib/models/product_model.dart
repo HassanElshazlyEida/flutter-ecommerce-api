@@ -7,7 +7,7 @@ class ProductModel {
   final int? discount;
   final String? image;
   bool? isFavorite;
-  final bool? inCart;
+  bool? inCart;
 
   ProductModel({
     this.id,
@@ -25,9 +25,9 @@ class ProductModel {
       : id = json['id'],
         name = json['name'],
         description = json['description'],
-        price = json['price'].toInt(),
-        oldPrice = json['old_price'].toInt(),
-        discount = json['discount'].toInt(),
+        price = json['price']?.toInt(),
+        oldPrice = json['old_price']?.toInt(),
+        discount = json['discount']?.toInt(),
         image = json['image'],
         isFavorite = json['in_favorites'],
         inCart = json['in_cart'];

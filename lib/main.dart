@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         ..getProductsData()
         ..getWishlistData()
         ..userData()
+        ..getCartData()
         ),
       ],
       child: GetMaterialApp(

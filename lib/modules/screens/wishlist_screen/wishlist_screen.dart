@@ -14,7 +14,7 @@ class WishlistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<LayoutCubit>(context);
-        final TextEditingController searchController = TextEditingController();
+      final TextEditingController searchController = TextEditingController();
 
     return  Scaffold(
       body: BlocConsumer<LayoutCubit,LayoutStates>(
@@ -22,7 +22,7 @@ class WishlistScreen extends StatelessWidget {
           
         },
         builder: (context, state) {
-          if(state is LoadingWishlistState){
+          if(state is LoadingWishlistState || state is AddOrRemoveWishlistState){
             return const Center(child: CupertinoActivityIndicator());
           }
           return Scaffold(
@@ -115,7 +115,7 @@ class WishlistScreen extends StatelessWidget {
             onPressed: () {
 
               cubit.products.where((element) => element.id == model.id).first.isFavorite = false;
-              cubit.changeProductFavorite(model.id!);
+              cubit.toggleProductWishlist(model.id!);
               Get.snackbar(
                 'Success'.tr, 
                 'Removed from favorites'.tr,
