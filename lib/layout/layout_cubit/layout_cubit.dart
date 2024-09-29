@@ -174,8 +174,8 @@ class LayoutCubit extends Cubit<LayoutStates> {
       var response = await _dio.get('${Helpers.apiUrl}/carts');
       if (response.data['status'] == true) {
         cart  = (response.data['data']['cart_items'] as List).map((e) => ProductModel.fromJson(e['product'])).toList();
-        totalPrice = response.data['data']['total'];
-        subTotal = response.data['data']['sub_total'];
+        totalPrice = (response.data['data']['total'] as num).toInt();
+        subTotal = (response.data['data']['sub_total'] as num).toInt();
         emit(SuccessCartState());
       } else {
         emit(ErrorCartState(response.data['message']));
