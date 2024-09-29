@@ -47,27 +47,27 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(children: [
                     const SizedBox(height: 60.0,),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Name',
-                        labelStyle: TextStyle(color: Colors.pink),
+                      decoration:  InputDecoration(
+                        labelText: 'Name'.tr,
+                        labelStyle: const TextStyle(color: Colors.pink),
                       ),
                       initialValue: cubit.userModel?.name,
                       readOnly: true,
                     ),
                     const SizedBox(height: 16.0,),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(color: Colors.pink),
+                      decoration:  InputDecoration(
+                        labelText: 'Email'.tr ,
+                        labelStyle:const TextStyle(color: Colors.pink),
                       ),
                       initialValue: cubit.userModel?.email,
                       readOnly: true,
                     ),
                     const SizedBox(height: 16.0,),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Phone',
-                        labelStyle: TextStyle(color: Colors.pink),
+                      decoration:  InputDecoration(
+                        labelText: 'Phone'.tr,
+                        labelStyle: const TextStyle(color: Colors.pink),
                       ),
                       initialValue: cubit.userModel?.phone,
                       readOnly: true,

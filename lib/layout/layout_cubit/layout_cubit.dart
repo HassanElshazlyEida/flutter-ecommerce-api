@@ -164,6 +164,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
     getProductsData();
     getWishlistData();
     userData();
+    getCartData();
   }
   List<ProductModel> cart = [];
   int totalPrice = 0;

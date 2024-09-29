@@ -34,6 +34,9 @@ class LocaleTranslations implements Translations {
       "Add to cart":"أضف إلى السلة",
       "Added to cart":"تمت الإضافة إلى السلة",
       "Remove from cart":"إزالة من السلة",
+      "Name":"الاسم",
+      "Email":"البريد الإلكتروني",
+      "Phone":"الهاتف",
     },
     "en" : {
 
